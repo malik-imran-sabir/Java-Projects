@@ -1,0 +1,104 @@
+<center><h1>تنظیم اطلاعات فارم</h1></center>
+<style>
+thead, th {
+	 text-align: center; 
+}
+</style>
+<hr />
+
+<form id="notificationForm" name="notificationForm" accept-charset="UTF-8">
+	<div class="row">
+		<input type="hidden" value="A" id="status" name="status"/>
+		<input type="hidden" value="System" id="createdBy" name="createdBy"/>
+		<div class="col col-md-12" style="float: center;">
+			<label style="width: 105px;">نئی نوٹیفکیشن درج کریں </label> <input
+				class="form-control" id="notification" 
+				 name="notification" type="text" required="required" />
+		</div>
+		
+		<div class="col col-md-12">
+			<label style="width: 105px;">ختم ہونے کی تاریخ</label> 
+			<input class="form-control" id="expiredOn" name="expiredOn" type="date" />
+		</div>
+		<br/>
+		<div class="col-md-12">
+		<button type="submit" class="btn btn-primary" id="btnSave">محفوظ
+									کریں</button>
+							</div>
+	</div>
+</form>
+
+<table id="example" class="table table-bordered table-striped"></table>
+
+<script>
+
+function loadData() {
+	debugger;
+	var url = 	orgApiUrl+"/org/getnotificationslist/";
+	var table ;
+	window.table = renderDataTable({
+		dataUrl:url,
+		tableId:"example",
+		type:"GET",
+		convertToArray : function (data){
+			console.log(data)
+			return data.data;
+		},
+		cols:[
+			{"title":"نمبر", "data":"id"},
+			{"title":"نوٹیفکیشن", "data":"notification"},
+			{"title":"ختم ہونے کی تاریخ", "data":"createdOn"},
+			{"title":"ختم ہونے کی تاریخ", "data":"expiredOn"},
+			{"title":"ایکشن", "data":"", "render":function( data, type, row, meta ){
+				//return meta.row + meta.settings._iDisplayStart + 1;
+					 return "" 
+				}
+			}
+		]
+	
+	});
+	
+}
+
+function resetForm(){
+	document.getElementById("notification").value="";
+	document.getElementById("expiredOn").valueAsDate = new Date()
+}
+
+$(function(){
+	loadData();
+
+	document.getElementById("expiredOn").valueAsDate = new Date()
+});
+
+
+$("form#notificationForm").submit(function(e) {
+	 debugger;
+	 e.preventDefault();
+	 $( this ).find( ":invalid" ).first().focus();
+	
+	 if($('#notification').val())
+	 {
+		 debugger;
+		 var apiPath = 	orgApiUrl+"/org/save-notifications";
+		 var args = buildAjaxArgs(apiPath,'POST',"json","application/json",function(data, status, xhr){
+				console.log(status);
+				swal("Saved", "!ریکارڈ کامیابی سے محفوظ کردی گئی ہے", "success");
+				
+				loadData();
+				resetForm();
+			
+			 },function(xhr, status, error) {
+				console.log(status)
+			});
+		 
+		 	args["data"] = makeFormJSON("notificationForm");
+		 	console.log(args["data"]);
+			var dataJson = JSON.parse('{'+'"notifications"'+':['+args["data"]+']}');
+			args["data"] = JSON.stringify(dataJson);
+			console.log(args["data"]);
+			makeAjaxCall(args);
+	 }
+});
+
+</script>

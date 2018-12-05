@@ -1,0 +1,79 @@
+
+ 
+<style>
+thead, th {
+	text-align: center;
+}
+</style>
+<center><h1>دو ماہی تعلیمی جائزہ</h1></center>
+
+<table id="example" class="table table-bordered table-striped"></table>
+
+<script>
+
+$(document).ready(function(){
+	loadkyfyatData();
+})
+
+function loadkyfyatData() {
+	var url="";
+	url = usersApiUrl+"/user/exam-list";
+		
+	
+	var table ;
+	window.table = renderDataTable({
+		dataUrl:url,
+		tableId:"example",
+		type:"GET",
+		convertToArray : function (data){
+			console.log(data)
+			return data.data;
+		},
+		cols:[
+			{"title":"نمبر", "data":"id"},
+			{"title":"مرکز کا نام", "data":"", "render":function( data, type, row, meta ){
+				debugger;
+				var markazname = getMarkazName("span"+row.uniquekeyname,row.madarsaId);
+				return "<span id='span"+row.uniquekeyname+"'></span>" ;
+			
+				}
+			},
+			{"title":"امتحان کی تاریخ", "data":"examdate"},
+			{"title":"امتحان نمبر", "data":"uniquekeyname"},
+			{"title":"امتحان کی قسم", "data":"examtype"},
+			{"title":"تفصیلی رپورٹ", "data":"", "render":function( data, type, row, meta ){
+				//return meta.row + meta.settings._iDisplayStart + 1;
+				
+				return "<button type='button' class='btn btn-default' onclick='openUrl("+row.uniquekeyname+","+row.madarsaId+")'>دو ماہی تعلیمی جائزہ</button> <button type='button' class='btn btn-default' onclick='openUrlNigran("+row.uniquekeyname+")'>فارم برائے مرکزی نگران</button>" 
+				}
+			}
+		]
+	})	
+		//calling user type
+	
+}
+
+function getMarkazName(spanId,madarsaId){
+	debugger;
+	var madarsaId = madarsaId;
+	var args = buildAjaxArgs("/org/org/branch/"+madarsaId+"/",'GET',"json","application/json",function(data, status, xhr){
+			console.log(data)
+		},function(xhr, status, error){
+			console.log(status)
+		
+		});
+	
+	return returnMarkazName(args,spanId);
+	//return "";
+}
+
+function openUrl(id,madarsaId)
+{
+	window.open('pages/bimonthly-taleemi-jaiza-report.html?id='+id+'&madarsaId='+madarsaId,'_blank','toolbar=no,scrollbars=no,resizable=no,width=950,height=620');
+}
+
+function openUrlNigran(id)
+{
+	window.open('pages/nigran-form-report.html?id='+id,'_blank','toolbar=no,scrollbars=no,resizable=no,width=950,height=620');
+}
+</script>

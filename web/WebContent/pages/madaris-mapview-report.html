@@ -1,0 +1,151 @@
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+ <meta charset="utf-8">
+<style>
+    #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 10;
+        padding: 0;
+      }
+</style>
+<body dir="rtl">
+<div class="content">
+ <div id="map">
+ 
+ </div>
+ </div>
+    <dialog id="favDialog">
+        <button style='float:right;' type="reset" id='close'>CLose</button>
+
+        <img center id='image' width=100 height=100 src=''>
+        <h5 id='name'>Name:</h5>
+        <h5 id='areaheadname'>Area Head Name:</h5>
+        
+		<center><h4 >سربراہ کےعلاوہ دیگرافراد</h4></center>
+        
+		<h5 id='firstWitnessName'>firstWitnessName:</h5>
+        <h5 id='firstWitnessPhone'>firstWitnessPhone:</h5>
+        <h5 id='secondWitnessName'>secondWitnessName:</h5>
+        <h5 id='secondWitnessPhone'>secondWitnessPhone:</h5>
+        <h5 id='isSchoolExists'>isSchoolExists:</h5>
+        <h5 id='areaPopulation'>areaPopulation:</h5>
+		<h5 id='sponsoredAmount'>sponsoredAmount:</h5>
+		
+    </dialog>
+
+<script>
+    $(document).ready(function() {
+                    $.ajax({
+                        url: '/org/org/branch/',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data, textStatus, xhr) {
+                            var status = data['status'];
+                            if (status == 'OK') {
+                                var data = data['data'];
+                                if (data.length > 0) {
+        							myMap(data);
+        						}
+        
+                            }
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            alert("ERROR");
+                        }
+                    });
+                });
+        
+                function myMap(madarsaData) {
+                    var firstMadarsa=madarsaData[0];
+        			var lat=parseFloat(firstMadarsa.lat);
+        			var lng=parseFloat(firstMadarsa.lng);
+        			var myLatLng = {lat:lat, lng:lng};
+        			var mapOptions = {
+                        center: myLatLng,
+                        zoom: 10
+                    }
+                    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        			var marker,i;
+    				for(i=0;i<madarsaData.length;i++){
+        				var singleMadarsa=madarsaData[i];
+        				var l=parseFloat(singleMadarsa.lat);
+        				var ln=parseFloat(singleMadarsa.lng);
+        				var madarsaLatLng = {lat:l, lng:ln};
+        				marker = new google.maps.Marker({
+        				  position: madarsaLatLng,
+        				  map: map,
+        				  title: singleMadarsa.name
+        				});	
+    					google.maps.event.addListener(marker, 'click', (function(marker, singleMadarsa) {
+    					return function() {
+    						showDialog(singleMadarsa);
+    						//alert(i);
+    						//infowindow.setContent(locations[i][0]);
+    						//infowindow.open(map, marker);
+    					}
+    					})(marker, singleMadarsa));
+    					
+    					/*marker.addListener('click', function() {
+    						alert(i);
+    						//showDialog(singleMadarsa);
+    					});*/
+    					
+        			}
+    				
+        		}
+    			function showDialog(singleMadarsa){
+    				var favDialog = document.getElementById('favDialog');
+    						var favDialogClose = document.getElementById('close');
+    						var image = document.getElementById('image');
+    						var name = document.getElementById('name');
+    						var areaheadname = document.getElementById('areaheadname');
+    						var firstWitnessName = document.getElementById('firstWitnessName');
+    						var firstWitnessPhone = document.getElementById('firstWitnessPhone');
+    						var secondWitnessName = document.getElementById('secondWitnessName');
+    						var secondWitnessPhone = document.getElementById('secondWitnessPhone');
+    						var isSchoolExists = document.getElementById('isSchoolExists');
+    						var areaPopulation = document.getElementById('areaPopulation');
+							var sponsoredAmount = document.getElementById('sponsoredAmount');
+							
+							
+    						image.src="http://10.4.40.116:8080/web/"+singleMadarsa.image
+    						name.innerText ='مرکزکانام: '+singleMadarsa.name;
+    						areaheadname.innerText ='علاقہ کےسربراہ کانام: '+singleMadarsa.areaheadname;
+    						firstWitnessName.innerText ='افراد: '+singleMadarsa.firstWitnessName;
+    						firstWitnessPhone.innerText ="فون نمبر: "+singleMadarsa.firstWitnessPhone;
+    						secondWitnessName.innerText ='افراد: '+singleMadarsa.secondWitnessName;
+    						secondWitnessPhone.innerText ='فون نمبر: '+singleMadarsa.secondWitnessPhone;
+    						isSchoolExists.innerText ='گاؤں میں اسکول ہےیانہیں: '+singleMadarsa.isSchoolExists;
+    						areaPopulation.innerText ='گاؤں کی آبادئ: '+singleMadarsa.areaPopulation;
+							sponsoredAmount.innerText ='علاقہ والوں کاتعاون: '+singleMadarsa.sponsoredAmount;
+							
+							
+    						favDialog.showModal();
+    						favDialog.addEventListener('click', function() {
+    							favDialog.close();
+    						});
+    			
+    			}
+</script>
+
+
+
+<div id="mapit"></div>
+    <script>
+      var map;
+      function initMap() {
+          
+        map = new google.maps.Map(document.getElementById('mapit'), {
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 8
+        });
+
+        console.log(map);
+      }
+    </script>
+
+    </body>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApOIq1Uj6p0n24_JUkrIg2HnkR_i1TW0Y&language=ar&region=UR" ></script>

@@ -1,0 +1,70 @@
+
+ 
+<style>
+thead, th {
+	text-align: center;
+}
+</style>
+<center><h1>کیفیات قرآنی مراکز‎</h1></center>
+
+<table id="example" class="table table-bordered table-striped"></table>
+
+<script>
+
+$(document).ready(function(){
+	loadkyfyatData();
+})
+
+function loadkyfyatData() {
+	var url="";
+	url = feedbackApiUrl+"/feedback/list-answers";
+		
+	
+	var table ;
+	window.table = renderDataTable({
+		dataUrl:url,
+		tableId:"example",
+		type:"GET",
+		convertToArray : function (data){
+			console.log(data)
+			return data.data;
+		},
+		cols:[
+			{"title":"نمبر", "data":"id"},
+			{"title":"دورے کی تاریخ", "data":"visitDate"},
+			{"title":"مرکز کا نام", "data":"", "render":function( data, type, row, meta ){
+				var markazname = getMarkazName("span"+row.uniquekeystamp,row.madarsaId);
+				return "<span id='span"+row.uniquekeystamp+"'></span>" ;
+			
+				}
+			},
+			{"title":"فارم نمبر", "data":"uniquekeystamp"},
+			{"title":"ایکشن", "data":"", "render":function( data, type, row, meta ){
+				//return meta.row + meta.settings._iDisplayStart + 1;
+				
+				return "<button type='button' class='btn btn-default' onclick='openUrl("+row.uniquekeystamp+")'>فارم کھولیں</button>" 
+				}
+			}
+		]
+	})	
+		//calling user type
+	
+}
+
+function getMarkazName(spanId,madarsaId){
+	var madarsaId = madarsaId;
+	var args = buildAjaxArgs("/org/org/branch/"+madarsaId+"/",'GET',"json","application/json",function(data, status, xhr){
+			console.log(data)
+		},function(xhr, status, error){
+			console.log(status)
+		
+		});
+	
+	return returnMarkazName(args,spanId);
+}
+
+function openUrl(id)
+{
+	window.open('pages/kyfyat-form.html?id='+id,'_blank','toolbar=no,scrollbars=no,resizable=no,width=850,height=620');
+}
+</script>

@@ -1,0 +1,109 @@
+   <html>
+   <head>
+   <meta charset="utf-8">
+  	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
+		
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+		<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<style>
+thead, th {
+	text-align: center;
+}
+</style>
+   </head>
+   <body dir="rtl">
+   
+<center><h1>فارم برائے مرکزی نگران‎</h1></center>
+<center><h3>فارم نمبر  : <span id="formnumber"></span></h3></center>
+
+<div class="row" id="questionCell" style="display:none;">
+		<div class="text-right">
+			<span class="rounded" id="number"></span> - <label  id='question'></label><br/>
+			<label class="border-bottom border-secondary" id='answer' style="width:100%;"></label>
+		</div>		
+	</div>
+	
+	<div id="form" class="row" style="margin:20px;">
+			
+	</div>
+		
+		<script>
+		$(document).ready(function() {
+			var id = getUrlVars()["id"];
+			
+			$('#formnumber').html(id);
+			
+			var url="/users/user/feedback-answer/"+id;
+	
+			$.ajax({	
+				url : url,
+				type: 'GET',
+				dataType: 'json',
+				success: function (data, textStatus, xhr) {
+							var data=data['data'];
+							updateForm(data);
+				},
+				error: function (xhr, textStatus, errorThrown) {
+				}
+			});	
+		});
+		
+		
+		function updateForm(data){
+			var singleHTML = document.getElementById("questionCell").innerHTML;
+			for (var i=0;i<data.length;i++){
+				var singleQuestion=data[i];
+				var divId="question"+i;
+				
+				var newHTML="<div id='"+divId+"' class='col-md-4' >"+singleHTML+" <br/> <br/></div>" ;
+				$('#form').append(newHTML);
+				var number=i+1;
+			
+				$("#"+divId+" #number").html("<strong>"+number+"</strong>");
+				$("#"+divId+" #question").html("<strong>"+singleQuestion.question+"</strong>");
+				if(singleQuestion.answer==""){
+					singleQuestion.answer="..";
+				}
+				$("#"+divId+" #answer").html(singleQuestion.answer);
+				
+				/*
+				if(singleQuestion.type=='2'){
+					$("#"+divId+" #spinner").css("display", "none");
+				}
+				else{
+					$("#"+divId+" #textarea").css("display", "none");
+					var optionsString=singleQuestion.option;
+					var options=optionsString.split(",");
+					
+					for(var j=0;j<options.length;j++){
+						$("#"+divId+" #spinner").append( new Option(options[j]) );
+					
+					}
+					
+				}*/
+			
+			}
+		}
+		function getUrlVars() {
+			var vars = {};
+			var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+				vars[key] = value;
+			});
+			return vars;
+		}
+		
+
+
+	</script>
+   </body>
+   </html>
+   

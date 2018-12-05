@@ -1,0 +1,443 @@
+<center><span id="locname"></span><h1>نیاعلاقہ متعارف کروائے‎</h1></center>
+<style>
+thead, th {
+	 text-align: center; 
+}
+</style>
+
+<div class="col-md-12">
+ <div class="col-md-4">
+  <div class="form-group">
+    <label for="forarea">علاقہ</label>
+     <select id="areadata" name="areadata" class="form-control"  multiple="multiple">
+    </select>
+    <button type="button" class="btn btn-default" data-toggle="modal"
+	data-target="#modal-area">
+	<i class="fa fa-plus-square"></i>
+</button>
+  </div>
+  </div>
+  <div class="col-md-4">
+   <div class="form-group">
+    <label for="fortehsil">تحصیل</label>
+     <select id="tehsildata" name="tehsildata" class="form-control" multiple="multiple">
+    </select>	
+   <button type="button" class="btn btn-default" data-toggle="modal"
+	data-target="#modal-tehsil">
+	<i class="fa fa-plus-square"></i>
+</button>
+  </div>
+  </div>
+ 
+  
+  
+  <div class="col-md-4">
+  <div class="form-group">
+    <label for="forprovince">ضلع</label>
+     <select id="districtdata" name="districtdata" class="form-control"  multiple="multiple">
+    </select>
+    <button type="button" class="btn btn-default" data-toggle="modal"
+	data-target="#modal-province">
+	<i class="fa fa-plus-square"></i>
+</button>
+  </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal-province" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button id="modal-close" type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+					<center><h4 class="modal-title">ضلع شامل کریں</h4></center>
+			</div>
+			<div class="modal-body">
+				<div class="box box-primary">
+				<form role="form" id="districtForm" accept-charset="UTF-8">
+						<div class="box-body">
+						<label for="forprovince">صوبہ منتخب کریں</label>
+						  <select id="locationMappingDataId" name="locationMappingDataId" class="form-control"></select>
+						  <input type="hidden" id="locationMappingId" name="locationMappingId" value="3" />
+						   <input type="hidden" id="createdBy" name="createdBy" value="System" />
+						    <input type="hidden" id="lastUpdateBy" name="lastUpdateBy" value="System" />
+						  <label for="forprovince">نیا ضلع شامل کریں</label>
+						  <input type="text" id="value" name="value" class="form-control" placeholder=""  />
+						   <span id="spnerrordist" class="error"></span>
+							</div>
+						<!-- /.box-body -->
+							
+						<div class="box-footer">
+							<button type="button" class="btn btn-primary" onclick="saveDistrict()" id="btnSave">محفوظ کریں</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+
+
+<div class="modal fade" id="modal-tehsil" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button id="modal-close" type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+					<center><h4 class="modal-title">تحصیل کو شامل کریں</h4></center>
+			</div>
+			<div class="modal-body">
+				<div class="box box-primary">
+				<form role="form" id="tehsilForm" accept-charset="UTF-8">
+						<div class="box-body">
+						<label for="forprovince">ضلع منتخب کریں</label>
+						<select id="locationMappingDataIdDist" name="locationMappingDataIdDist" class="form-control"></select>
+						  <input type="hidden" id="locationMappingId" name="locationMappingId" value="4" />
+						   <input type="hidden" id="createdBy" name="createdBy" value="System" />
+						    <input type="hidden" id="lastUpdateBy" name="lastUpdateBy" value="System" />
+						  <label for="forprovince">نئی تحصیل شامل کرے‎</label>
+						  <input type="text" id="value" name="value" class="form-control" placeholder=""  />
+						   <span id="spnerrorteh" class="error"></span>
+						  
+							</div>
+						<!-- /.box-body -->
+							
+						<div class="box-footer">
+							<button type="button" class="btn btn-primary" onclick="savetehsil()" id="btnSave">محفوظ کریں</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+
+
+<div class="modal fade" id="modal-area" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button id="modal-close" type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+					<center><h4 class="modal-title"> علاقہ کو شامل کریں </h4></center>
+			</div>
+			<div class="modal-body">
+				<div class="box box-primary">
+				<form role="form" id="areaForm" accept-charset="UTF-8">
+						<div class="box-body">
+						<label for="forprovince">تحصیل کا انتخاب کریں</label>
+						 <select id="locationMappingDataIdTeh" name="locationMappingDataIdTeh" class="form-control"></select>
+						  <input type="hidden" id="locationMappingId" name="locationMappingId" value="5" />
+						   <input type="hidden" id="createdBy" name="createdBy" value="System" />
+						    <input type="hidden" id="lastUpdateBy" name="lastUpdateBy" value="System" />
+						  <label for="forprovince">نیاعلاقہ یاگاؤں شامل کرے‎</label>
+						  <input type="text" id="value" name="value" class="form-control" placeholder=""  />
+						  <span id="spnerrorarea" class="error"></span>
+							</div>
+						<!-- /.box-body -->
+							
+						<div class="box-footer">
+							<button type="button" class="btn btn-primary" onclick="savearea()" id="btnSave">محفوظ کریں</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+
+
+<script>
+
+
+function rebindDistrict(){
+	var args = buildAjaxArgs(locationsApiUrl+"/locations/listdistrict/",'GET',"json","application/json",function(data, status, xhr){
+		console.log(status)
+
+	},function(xhr, status, error){
+		console.log(status)
+	
+	});
+	
+	$('#districtdata')
+    .find('option')
+    .remove()
+    .end();
+	
+	fillDropDown(args,"districtdata");
+	
+}
+
+function rebindDistrictForm(){
+	var args = buildAjaxArgs(locationsApiUrl+"/locations/listdistrict/",'GET',"json","application/json",function(data, status, xhr){
+		console.log(status)
+
+	},function(xhr, status, error){
+		console.log(status)
+	
+	});
+	
+	$('#locationMappingDataIdDist')
+    .find('option')
+    .remove()
+    .end();
+	//fillDropDown(args,"districtdata");
+	fillDropDown(args,"locationMappingDataIdDist");
+	
+}
+
+function rebindTehsil()
+{
+	var args = buildAjaxArgs(locationsApiUrl+"/locations/listtehsil/",'GET',"json","application/json",function(data, status, xhr){
+		console.log(status)
+
+	},function(xhr, status, error){
+		console.log(status)
+	
+	});
+	
+	$('#tehsildata')
+    .find('option')
+    .remove()
+    .end();
+	
+	fillDropDown(args,"tehsildata");
+}
+
+function rebindTehsilForm()
+{
+	var args = buildAjaxArgs(locationsApiUrl+"/locations/listtehsil/",'GET',"json","application/json",function(data, status, xhr){
+		console.log(status)
+
+	},function(xhr, status, error){
+		console.log(status)
+	
+	});
+	
+	$('#locationMappingDataIdTeh')
+    .find('option')
+    .remove()
+    .end();
+	
+	fillDropDown(args,"locationMappingDataIdTeh");
+}
+
+function rebindArea(){
+	var args = buildAjaxArgs(locationsApiUrl+"/locations/listarea/",'GET',"json","application/json",function(data, status, xhr){
+		console.log(status)
+
+	},function(xhr, status, error){
+		console.log(status)
+	
+	});
+	
+	$('#areadata')
+    .find('option')
+    .remove()
+    .end();
+	fillDropDown(args,"areadata");
+}
+
+function rebindProvince(){
+	
+	var args = buildAjaxArgs(locationsApiUrl+"/locations/listprovince/",'GET',"json","application/json",function(data, status, xhr){
+		console.log(status)
+
+	},function(xhr, status, error){
+		console.log(status)
+	
+	});
+	
+	$('#locationMappingDataId')
+    .find('option')
+    .remove()
+    .end();
+	//provice selection 
+	fillDropDown(args,"locationMappingDataId");
+}
+
+$(function(){
+	rebindDistrict();
+	rebindDistrictForm();
+	rebindTehsil();
+	rebindTehsilForm();
+	rebindArea();
+	rebindProvince();
+});
+
+
+function rebindAll(){
+	rebindDistrict();
+	rebindDistrictForm();
+	rebindTehsil();
+	rebindTehsilForm();
+	rebindArea();
+	rebindProvince();
+}
+
+function ifexistarea(locationname)
+{ 
+	$("#spnerrorarea").html("");
+	$.getJSON(locationsApiUrl+"/locations/listallonlynames", function(data){
+
+		$.each( data.data, function( key, val ) {
+			if(val["name"].trim()==locationname.trim())
+			{
+				$("#spnerrorarea").html("already found!");
+			}
+		})
+        
+    });
+}
+
+
+
+function savearea()
+{
+
+ 	 $("#areaForm").find( ":invalid" ).first().focus();
+ 	
+ 	 
+ 	 var result =  ifexistarea($("form#areaForm #value").val());
+ 	
+	console.log(result);
+ 	
+ 	 if($("form#areaForm #spnerrorarea").html()!="")
+ 	 {}
+ 	 else{ 
+	 var apiPath = 	locationsApiUrl+"/locationData/save-location";
+	
+	 var args = buildAjaxArgs(apiPath,'POST',"json","application/json",function(data, status, xhr){
+		 
+			console.log(status)
+			swal("Saved", "!ریکارڈ کامیابی سے محفوظ کردی گئی ہے", "success");
+		
+		 },function(xhr, status, error) {
+			console.log(status)
+		});
+	 
+	 	args["data"] = makeFormJSON("areaForm");
+		var dataJson = JSON.parse(args["data"]);
+		dataJson.locationMappingDataId = $("#locationMappingDataIdTeh option:selected").val();
+		args["data"] = JSON.stringify(dataJson);
+		console.log(args["data"]);
+		makeAjaxCall(args);	
+	
+ 	 }
+ 	 
+ 	rebindAll();
+	$("form#districtForm #value").val('');
+}
+
+
+function ifexistteh(locationname)
+{ 
+	$("#spnerrorteh").html("");
+	$.getJSON(locationsApiUrl+"/locations/listallonlynames", function(data){
+	
+		$.each( data.data, function( key, val ) {
+			if(val["name"].trim()==locationname.trim())
+			{
+				$("#spnerrorteh").html("already found!");
+			}
+		})
+    });
+
+}
+function savetehsil()
+{
+	debugger;
+	 $("#tehsilForm").find( ":invalid" ).first().focus();
+	 
+	 var result =  ifexistteh($("form#tehsilForm #value").val());
+	 console.log(result);
+	 if($("form#tehsilForm #spnerrorteh").html()==""){
+		 
+	 var apiPath = 	locationsApiUrl+"/locationData/save-location";
+	
+	 var args = buildAjaxArgs(apiPath,'POST',"json","application/json",function(data, status, xhr){
+		 
+			console.log(status)
+			rebindAll();
+			$("form#districtForm #value").val('');
+			
+			swal("Saved", "!ریکارڈ کامیابی سے محفوظ کردی گئی ہے", "success");
+		
+		 },function(xhr, status, error) {
+			console.log(status)
+		});
+	 
+	 	args["data"] = makeFormJSON("tehsilForm");
+		var dataJson = JSON.parse(args["data"]);
+		dataJson.locationMappingDataId = $("#locationMappingDataIdDist option:selected").val();
+		args["data"] = JSON.stringify(dataJson);
+		console.log(args["data"]);
+		makeAjaxCall(args);
+		
+		
+	 }
+}
+
+
+function ifexistdist(locationname)
+{ 
+	$("#spnerrordist").html("");
+	$.getJSON(locationsApiUrl+"/locations/listallonlynames", function(data){
+		$.each( data.data, function( key, val ) {
+			if(val["name"].trim()==locationname.trim())
+			{
+				$("#spnerrordist").html("already found!");
+				return true;
+			}
+		})
+    });
+}
+
+function saveDistrict(){
+	
+	 $("#districtForm").find( ":invalid" ).first().focus();
+	 debugger;
+	 var result = ifexistdist($("form#districtForm #value").val());
+	 
+	 console.log(result);
+	 
+	 if($("form#districtForm #spnerrordist").html()==""){
+
+	 var apiPath = 	locationsApiUrl+"/locationData/save-location";
+	 var args = buildAjaxArgs(apiPath,'POST',"json","application/json",function(data, status, xhr){
+			console.log(status)
+			rebindAll();
+			$("form#districtForm #value").val(''); 
+			swal("Saved", "!ریکارڈ کامیابی سے محفوظ کردی گئی ہے", "success");
+		
+		 },function(xhr, status, error) {
+			console.log(status)
+		});
+	 	args["data"] = makeFormJSON("districtForm");
+		var dataJson = JSON.parse(args["data"]);
+		//dataJson.qualification = qualifications;
+		args["data"] = JSON.stringify(dataJson);
+		console.log(args["data"]);
+		makeAjaxCall(args); 
+		
+		
+	 }
+}
+
+
+
+
+</script>

@@ -1,0 +1,370 @@
+
+<style>
+thead, th {
+	 text-align: center; 
+}
+</style>
+<button type="button" class="btn btn-default" data-toggle="modal"
+	data-target="#modal-default"">
+	<i class="fa fa-plus-square"></i>
+</button>
+<center><h1>مدارس</h1></center>
+<center><span id="locname" style="font-size: 20px;color:#3C8D68;">پاکستان</span></center>
+<hr />
+<table id="example" class="table table-bordered table-striped" style="float: center;">
+
+</table>
+
+
+<div class="modal fade" id="modal-default" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button id="modal-close" type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<center><h4 class="modal-title">مدرسہ</h4></center>
+			</div>
+			<div class="modal-body">
+				<div class="box box-primary">
+
+					<!-- /.box-header -->
+					<!-- form start -->
+					<form role="form" id="madarsaForm" accept-charset="UTF-8">
+						<div class="box-body">
+							<div class="row">
+								<div class="col col-md-12" style="text-align: center;">
+								<img src="images/madaris-dummy.jpg" id="profileImage" style="width: 150px; height: 150px">
+								</div>
+								<div class="col col-md-12" style="text-align: center;">
+									<label style="width: 105px;">تصویر </label>
+									<input type="file" name ="img" id="img" onchange="getBase64Image(this,'profileImage');" class="form-control">
+									<input type="hidden" name="image" id="image">
+								</div>
+								<div class="col col-md-4"> 
+									<input type="hidden" name="id" id="id">
+								</div>
+							</div>
+							
+							
+								<div class="form-group">
+								<label for="name" id = "label">مدرسہ کا کوڈ نمبر</label> <input
+									type="text" class="form-control" id="madarsacode"  name = "madarsacode"
+									placeholder="کوڈ لکھیں" required="required">
+							</div>
+							
+							
+							
+							<div class="form-group">
+								<label for="name" id = "label">مدرسہ کا نام</label> <input
+									type="text" class="form-control" id="name"  name = "name" required="required"
+									placeholder="مدرسہ کا نام لکھیں">
+							</div>
+							
+							
+								<div class="form-group">
+								<label for="name" id = "label">مدرسہ شروع ہونے کی تاریخ</label> <input
+									type="date" class="form-control" id="madarsastartedfrom"  name = "madarsastartedfrom"
+									placeholder="مدرسہ کا نام لکھیں" required="required">
+							</div>
+							
+							
+							<div class="form-group">
+								<label for="locationLabel">علاقہ</label> 
+								<div class="ui-widget">
+									<input type="text" class="form-control" id="locationLabel"  name = "locationLabel" 
+									onkeyup="popupAutoSuggestion(this.value)" placeholder="علاقہ لکھیں" style="display:none;">
+									
+								<select	class="form-control" id="locationdata" name="locationdata">
+									<option selected="selected" value="0">علاقہ لکھیں<option>
+								</select>
+								
+								<div class="ui-widget"></div>
+							    </div>
+							</div>
+								<div class="form-group">
+								<label for="nigranid">نگران</label> 
+								<select	class="form-control" id="nigranid" name="nigranid" required="required">
+									<option selected="selected" value="">براہ مہربانی منتخب کریں</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="lat">طول بلد‎</label> 
+								<input type="text" class="form-control" id="lat"  name = "lat" placeholder="  طول بلد لکھیں  ‎ ">
+							</div>
+							<div class="form-group">
+								<label for="lng">عرض بلد‎</label> 
+								<input type="text" class="form-control" id="lng"  name = "lng" placeholder="عرض بلد لکھیں">
+							</div>
+							<div class="form-group">
+								<label for="areaHeadName">ٍعلاقےکےسربراھ کا نام</label> 
+								<input type="text" class="form-control" id="areaHeadName"  name = "areaHeadName" placeholder="لیٹیٹیوڈ لکھیں">
+							</div>
+							
+							<div class="form-group">
+								<label for="areaHeadName">سربراہ کا فون نمبر</label> 
+								<input type="text" class="form-control" 
+								id="sarbrahmobilenumber"  
+								name = "sarbrahmobilenumber" placeholder="">
+							</div>
+							
+							<div class="form-group">
+								<p>سربراہ کےعلاوہ دیگرافراد</p>
+								<label for="firstWitnessName">نام</label> 
+								<input type="text" class="form-control" id="firstWitnessName"  name = "firstWitnessName" >
+								
+								<label for="firstWitnessPhone">فون نمبر</label> 
+								<input type="text" class="form-control" id="firstWitnessPhone"  name = "firstWitnessPhone" >
+								
+								<label for="secondWitnessName">نام</label> 
+								<input type="text" class="form-control" id="secondWitnessName"  name = "secondWitnessName">
+								
+								<label for="secondWitnessPhone">فون نمبر</label> 
+								<input type="text" class="form-control" id="secondWitnessPhone"  name = "secondWitnessPhone" >
+							</div>
+							<div class="form-group">
+								<label for="sponsoredAmount">علاقے والوں کا تعاون</label> 
+								<input type="text" class="form-control" id="sponsoredAmount"  name = "sponsoredAmount" >
+							</div>
+							<div class="form-group">
+								<label for="isSchoolExists">قریب میں سکول ہے یا نہیں</label>
+								<select	class="form-control" id="isSchoolExists" name = "isSchoolExists">
+									<option value="Yes">ہاں</option>
+									<option value="No">نہیں</option>
+								</select>
+							</div>
+							
+							<div class="form-group">
+								<label for="areaPopulation">علاقےکی آبادی</label> 
+								<input type="text" class="form-control" id="areaPopulation"  name = "areaPopulation" >
+							</div>
+							
+							<div class="form-group">
+								<div class="form-group">
+									<label for="status">حالت-</label> 
+										<select	class="form-control" id="status" name = "status">
+										<option value="A">فعال</option>
+										<option value="I">غیر فعال</option>
+									</select>
+								</div>
+								
+							<div class="form-group">
+									<input type="hidden" id ="location" name="location" class="form-control" >
+							</div>
+						
+						</div>
+						<!-- /.box-body -->
+						
+						<div class="box-footer">
+							<button type="button" class="btn btn-primary" onclick="save()" id="btnSave">محفوظ کریں</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+
+<script>
+
+function getNigranName(spanId,Id){
+	var madarsaId = madarsaId;
+	var args = buildAjaxArgs("/users/user/list/"+Id+"/",'GET',"json","application/json",function(data, status, xhr){
+			console.log(data)
+		},function(xhr, status, error){
+			console.log(status)
+		
+		});
+	
+	return returnNigranName(args,spanId);
+}
+
+$(document).ready(function(){
+	//debugger;
+//$('#locationId').val()
+	var table ;
+		window.table = renderDataTable({
+			dataUrl:madarsApiUrl+"/org/branch/all-branches",
+			tableId:"example",
+			type:"GET",
+			convertToArray : function (data){
+				console.log("all-branches>>"+data)
+				return data.data;
+			},
+			cols:[
+				{"title":"نمبر", "data":"id"},
+				{"title":"مدرسہ کا نام", "data":"name"},
+				{"title":"علاقہ", "data":"location"},
+				{"title":" طول بلد‎", "data":"lat"},
+				{"title":"عرض بلد", "data":"lng"},
+				{"title":"نگران" , "data":"", "render":function( data, type, row, meta ){
+					debugger;
+					var markazname = getNigranName("span"+row.id,row.nigranid);
+					return "<span id='span"+row.id+"'></span>" ;
+				
+					}
+				},
+				{"title":"بننے کا وقت", "data":"madarsastartedfrom"},
+				{"title":"حالت", "data":"status"},
+				{"title":"اعمال", "data":"", "render":function( data, type, row, meta ){
+					 return "<button type='button' class='btn btn-default'  onclick='populateDataInForm("+row.id+",\"edit\")' data-toggle='modal' data-target='#modal-default'>	<i class='fa fa-edit'></i></button>"+
+						 "<button type='button' class='btn btn-default' onclick='populateDataInForm("+row.id+",\"view\")' data-toggle='modal' data-target='#modal-default'>View</button>" 
+					}
+				}
+			]
+		})
+		
+		
+		setTimeout(() => {
+			$("#status").select2();	
+		}, 500);
+		
+		
+	})
+
+	
+	function save(){
+	
+	$("#madarsaForm").find( ":invalid" ).first().focus();
+		if(requiredValidation()){
+			var args = buildAjaxArgs(madarsApiUrl+"/org/branch/saveUpdate/",'POST',"json","application/json",function(data, status, xhr){
+				console.log(status)
+				$("#modal-close").trigger('click')
+				window.table.ajax.reload( null, false );
+				console.log('saved');
+				//alert('Record have been saved.');	
+				swal("Saved", "!ریکارڈ کامیابی سے محفوظ کردی گئی ہے", "success");
+			},function(xhr, status, error){
+				console.log(status)
+			});
+			args["data"] = makeFormJSON("madarsaForm")
+			console.log(args)
+			makeAjaxCall(args)
+		}
+	}
+
+	//populating nigrans.
+	$(function(){
+		
+		var userTypeId = 1;
+		var args = buildAjaxArgs(usersApiUrl+"/user/byType/"+userTypeId+"/",'GET',"json","application/json",function(data, status, xhr){
+			console.log(status)
+
+		},function(xhr, status, error){
+			console.log(status)
+		
+		});
+		
+		fillDropDown(args,"nigranid");
+	});
+		
+	
+	$(function(){
+		
+		$(".modal").on("hidden.bs.modal", function(){
+			$(".modal-body input").val("")
+			document.getElementById('profileImage').src= "";
+		});
+	})
+	
+		function populateDataInForm(id,actionType) {
+		var args = buildAjaxArgs(madarsApiUrl+"/org/branch/"+id+"/",'GET',"json","application/json",
+		function(data, status, xhr){
+			debugger
+			console.log("populateDataInForm>>"+data)
+
+		},function(xhr, status, error){
+			console.log(status)
+		
+		});
+		
+		refillForm(args,actionType);
+	}
+	
+	
+	
+	function refillForm(args,actionType) {
+
+		args["url"] = args.url, args["type"] = "GET"
+		args["success"] = function(data, status, xhr) {
+			debugger;
+			repopulateData(data);
+		}
+
+		args["error"] = function(xhr, status, error) {
+			console.log("Error while getting list of user types : " + error)
+		}
+
+		if (actionType=="edit") {
+			$('#btnSave').attr('disabled', false);
+		} else if (actionType=="view") {
+			$('#btnSave').attr('disabled', true);
+		}
+		
+		makeAjaxCall(args)
+	}
+
+	function repopulateData(oData) {
+		debugger;
+	    $.each(oData.data, function(name, val) {
+	        var $el = $('#' + name );
+	        //type = $el.attr('type');
+	        if(name == "image" && val!=null) {
+	        	document.getElementById('profileImage').src= val.substring(1, val.length);
+	        } else {
+		        $el.val(val);
+	        }
+	    });
+	    
+	    $('#locationdata').val($('#location').val());
+	    convertTobase64Img(document.getElementById('profileImage').src);
+	}
+	
+	//populating nigrans.
+	$(function(){
+				
+		var args = buildAjaxArgs(locationsApiUrl+"/locations/listLocations/",'GET',"json","application/json",function(data, status, xhr){
+			console.log(status)
+
+		},function(xhr, status, error){
+			console.log(status)
+		
+		});
+		
+		fillDropDown(args,"locationdata");
+	});
+	
+	
+	$( "#locationdata" ).change(function() {
+		changelocation();
+	});
+	
+	function changelocation(){
+		debugger;
+		var location = $('#locationdata').val();
+		$('#location').val(location);
+		$("#locationId").val(location);
+		$("#locationLabel").val($('#locationdata option:selected').text());
+	}
+	function requiredValidation()
+	{
+		
+		debugger;
+		
+		var returnVal = false;
+		
+		if(	$("#name").val()!=""
+			&& $('#locationdata option:selected').val()!="0"
+				&& $('#nigranid option:selected').val()!=""
+				
+				){
+			returnVal = true;
+		}
+		
+		return returnVal;
+		
+	}
+</script>

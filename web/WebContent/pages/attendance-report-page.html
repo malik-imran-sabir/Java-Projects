@@ -1,0 +1,87 @@
+<style>
+thead, th {
+	text-align: center;
+}
+</style>
+
+<center><h1>حاضری کی رپورٹ</h1></center>
+<script>
+	
+	$(document).ready(function() {
+		$.ajax({	url: '/users/user/monthlyAttendanceReport/',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data, textStatus, xhr) {
+                         var status=data['status'];
+						 if(status=='OK'){
+							var data=data['data'];
+							var headers=[];
+							var dataset=[];
+							headers.push({title:"کل رقم"});
+							headers.push({title:"رقم"});
+							headers.push({title:"تنخواہ"});
+							headers.push({title:"ایزی پیسہ موبائل نمبر"});
+							headers.push({title:"ایزی پیسہ شناختی کارڈ نمبر"});
+							headers.push({title:"شناختی کارڈ نمبر"});
+							headers.push({title:"علاقہ"});
+							headers.push({title:"نام"});
+							headers.push({title:"#"});
+							
+							
+							if(data.length>0){
+								for(var i=0;i<data.length;i++){
+									var singleDataObject=data[i];
+									var object=[];
+									var totalAmount=parseInt(singleDataObject.salary)+parseInt(singleDataObject.benefitamount);
+									if(isNaN(totalAmount)){
+									totalAmount=0;
+									}
+									object.push(totalAmount);
+									object.push(singleDataObject.benefitamount);
+									object.push(singleDataObject.salary);
+									
+									object.push(singleDataObject.emobilenumber);
+									object.push(singleDataObject.enic);
+									object.push(singleDataObject.nic);
+									
+									object.push(singleDataObject.location);
+									object.push(singleDataObject.name);
+									var num=i+1;
+									object.push(num);
+									
+									
+									
+									
+									dataset.push(object);
+								}
+							}
+							updateDataTable(headers,dataset);
+							
+						 
+						 }
+					},
+                    error: function (xhr, textStatus, errorThrown) {
+                    	alert("ERROR");
+					}
+                 });	
+	});
+	
+	function updateDataTable(headers,dataset){
+		$('#example').DataTable( {
+			data: dataset,
+			columns: headers,
+			dom: 'Bfrtip',
+			ordering: false,
+			buttons: [
+				//'copyHtml5',
+				'excelHtml5',
+				'csvHtml5'
+				//'pdfHtml5'
+			]});
+	}
+
+	
+	</script>
+	
+	<table id="example" class="display table cell-border table table-striped table-bordered" >
+				</table>

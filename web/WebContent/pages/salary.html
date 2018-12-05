@@ -1,0 +1,100 @@
+<center><h1>نئ تنخواہ جاری کریں</h1></center>
+<style>
+thead, th {
+	 text-align: center; 
+}
+</style>
+<hr />
+
+<form id="salaryForm" name="salaryForm" accept-charset="UTF-8">
+	<div class="row">
+		<input type="hidden" value="A" id="status" name="status"/>
+		<input type="hidden" value="System" id="createdBy" name="createdBy" />
+		<div class="col col-md-6 pull-right">
+		<label style="width: 105px;">تنخواہ کی تاریخ</label> <input
+				class="form-control" id="salarydate" 
+				 name="salarydate" type="date" required="required" />
+		</div>
+
+		<br/>
+		<div class="col-md-12">
+		<button type="submit" class="btn btn-primary" id="btnSave">محفوظ
+									کریں</button>
+							</div>
+	</div>
+</form>
+
+<table id="example" class="table table-bordered table-striped"></table>
+
+<script>
+
+function loadData() {
+	debugger;
+	var url = 	usersApiUrl+"/user/getsalaries/";
+	var table ;
+	window.table = renderDataTable({
+		dataUrl:url,
+		tableId:"example",
+		type:"GET",
+		convertToArray : function (data){
+			console.log(data)
+			return data.data;
+		},
+		cols:[
+			{"title":"نمبر", "data":"id"},
+			{"title":"تنخواہ کی تاریخ", "data":"salarydate"},
+			{"title":"ایکشن", "data":"", "render":function( data, type, row, meta ){
+				//return meta.row + meta.settings._iDisplayStart + 1;
+				return "<button type='button' class='btn btn-default' onclick='openUrl("+row.id+")'>تنخواہ کی تفصیلات</button> "
+			 }
+			}
+		]
+	
+	});
+	
+}
+
+function resetForm(){
+	document.getElementById("salarydate").valueAsDate = new Date()
+}
+
+$(function(){
+	loadData();
+
+	document.getElementById("salarydate").valueAsDate = new Date()
+});
+
+
+$("form#salaryForm").submit(function(e) {
+	 debugger;
+	 e.preventDefault();
+	 $( this ).find( ":invalid" ).first().focus();
+	debugger;
+	debugger;
+	 var apiPath = 	usersApiUrl+"/user/save-salaries";
+	 var args = buildAjaxArgs(apiPath,'POST',"json","application/json",function(data, status, xhr){
+			console.log(status);
+			swal("Saved", "!ریکارڈ کامیابی سے محفوظ کردی گئی ہے", "success");
+			
+			loadData();
+			resetForm();
+		
+		 },function(xhr, status, error) {
+			console.log(status)
+		});
+ 
+ 	args["data"] = makeFormJSON("notificationForm");
+ 	console.log(args["data"]);
+	var dataJson = JSON.parse('{'+'"notifications"'+':['+args["data"]+']}');
+	args["data"] = JSON.stringify(dataJson);
+	console.log(args["data"]);
+	makeAjaxCall(args);
+	
+});
+
+function openUrl(id)
+{
+	window.open('pages/salary-received.html?id='+id,'_blank','toolbar=no,scrollbars=no,resizable=no,width=950,height=620');
+}
+
+</script>

@@ -1,0 +1,1165 @@
+
+
+<style>
+thead, th {
+	text-align: center;
+}
+</style>
+
+<!-- Changes Summary 18 -->
+<center><h1>صارفین</h1></center>
+<button type="button" class="btn btn-default" data-toggle="modal"
+	data-target="#modal-default">
+	<i class="fa fa-plus-square"></i>
+</button>
+<hr>
+<div class="col-md-6 col-md-offset-8">
+	<ul class="nav nav-tabs">
+		<li><a href="javascript:void(0)" onclick="usersByCategory(2);">اساتذہ</a></li>
+		<li><a href="javascript:void(0)" onclick="usersByCategory(1);">نگران</a></li>
+		<li><a href="javascript:void(0)" onclick="usersByCategory(3);"> مرکز ملازمین</a></li>
+		<li><a href="javascript:void(0)" onclick="usersByCategory(4);"> طالب علم</a></li>
+		<li><a href="javascript:void(0)" onclick="usersByCategory('')">سب</a></li>
+	</ul>
+</div>
+<hr>
+<!--  Data table Changes on 2018-08-03 -->
+<table id="example" class="table table-bordered table-striped"></table>
+<div class="modal fade" id="modal-default" data-backdrop="static">
+	<div class="modal-dialog" style="width: 750px !important;">
+		<div class="modal-content" style="padding: 10px">
+			<div class="modal-header">
+				<button id="modal-close" type="button" class="close"
+					data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<center><h4 class="modal-title">صارفین</h4></center>
+			</div>
+			<div class="modal-body">
+
+				<!--  <ul class="nav nav-tabs">
+               <li  class="active"><a data-toggle="tab" href="#User">User</a></li>
+            </ul> -->
+
+				<div class="tab-content">
+					<div id="User" class="tab-pane fade  in active">
+						<!--  <h3>صارفین</h3> -->
+						<form id="userForm" name="userForm" accept-charset="UTF-8">
+						<ul class="errorMessages"></ul>
+							<div class="row">
+								<div class="col col-md-4"></div>
+								<div class="col col-md-4" style="float: center;">
+									<label style="width: 105px;">صارف </label> <select
+										class="form-control" id="userTypeId" class="userType"
+										 name="userTypeId">
+									</select>
+								</div>
+								<div class="col col-md-4"></div>
+							</div>
+							<hr>
+
+						<div class="row">
+								<div class="col col-md-12" style="text-align: center;">
+								<img src="images/profileIcon.jpg" id="profileImage" style="width: 150px; height: 150px">
+								</div>
+								</div>
+								<div class="row">
+								<div class="col col-md-12" style="text-align: center;" >
+									<label style="width: 105px;">تصویر  </label>
+									<input type="file" name ="img" id="img" 
+									onchange="getBase64Image(this,'profileImage')" style="text-align: center;" class="form-control">
+									<input type="hidden" name="image" id="image">
+								</div>
+								<div class="col col-md-4"> 
+									<input type="hidden" name="id" id="id">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col col-md-5">
+									<label>والد کا نام</label> <input type="text"
+										class="form-control" id="fatherName"
+										placeholder="والد کا نام " name="fatherName">
+								</div>
+								<div class="col col-md-2"></div>
+
+								<div class="col col-md-5">
+									<label>نام</label> <input type="text" class="form-control"
+										id="name" name="name" placeholder="نام " >
+								</div>
+
+							</div>
+
+							<div class="row">
+								<div class="col col-md-5">
+									<label> داخلہ کی تاریخ</label> <input type="date"
+										class="form-control" id="doj" name="doj"
+										placeholder="YYYY-MM-DD">
+								</div>
+								<div class="col col-md-2"></div>
+
+								<div class="col col-md-5">
+									<label>پیدائش کی تاریخ</label> <input type="date"
+										class="form-control" id="dob" placeholder="YYYY-MM-DD"
+										name="dob">
+								</div>
+							</div>
+							`
+							<div class="row">
+								<div class="col col-md-5">
+									<label>رابطہ نمبر ١</label> <input type="tel"
+										class="form-control" id="contact1" name="contact1"
+										placeholder="0300-5241752" >
+								</div>
+								<div class="col col-md-2"></div>
+
+								<div class="col col-md-5">
+									<label>علاقہ</label>
+									<div class="ui-widget">
+										<input type="text" class="form-control" id="locationLabel"
+											name="locationLabel"
+											onkeyup="popupAutoSuggestion(this.value)"
+											placeholder="علاقہ لکھیں"
+											style="display:none;">
+											
+									<select	class="form-control chosen-select" id="locationdata" name="locationdata" autocomplete="off">
+										<option selected="selected" value="0">مقام لکھیں<option>
+									</select>
+									<div class="ui-widget"></div>
+									</div>
+									<input type="hidden" class="form-control" id="location" name="location">
+									<input type="hidden" class="form-control" id="locationId" name="locationId">
+									
+								</div>
+
+							</div>
+
+							<div class="row">
+								<div class="col col-md-5">
+									<label>رابطہ نمبر ٣</label> <input type="tel"
+										class="form-control" id="contact3" name="name"
+										placeholder="0300-5241752" >
+								</div>
+								<div class="col col-md-2"></div>
+
+								<div class="col col-md-5">
+									<label>رابطہ نمبر ٢</label> <input type="tel"
+										class="form-control" id="contact2" name="contact2"
+										placeholder="0300-5241752" >
+								</div>
+
+							</div>
+
+							<div class="row userId-password">
+								<div class="col col-md-5 password">
+									<label>پاسورڈ</label> <input type="password"
+										class="form-control" id="password" name="password"
+										placeholder="*************" style="display:none;" >
+										
+									
+										<input type="password"
+										class="form-control" id="passwordSalt" name="passwordSalt"
+										placeholder="" >
+										
+								</div>
+								<div class="col col-md-2"></div>
+
+								<div class="col col-md-5 userId">
+									<label>یوزر آیڈی</label> <input type="text"
+										class="form-control" id="username-id" name="username-id" placeholder="">
+										<span id="erroruserexist" style="color:red;"></span>
+								</div>
+
+							</div>
+
+							<div class="row">
+								<div class="col col-md-5 madarsa">
+									<label>مدرسہ</label> <select class="form-control" 
+										id="madarsaId" name="madarsaId" 
+										style="width: 100%"></select>
+								</div>
+								<div class="col col-md-2"></div>
+
+								<div class="col col-md-5">
+									<label>سٹیٹس</label> 
+									<select class="form-control" id="status"
+										name="status"  style="width: 100%">
+										<option value="A">فعال</option>
+										<option value="I">غیر فعال</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col col-md-5 tempaddress">
+									<label>عارضی پتہ</label> <input type="text"
+										class="form-control" id="tempaddress" name="tempaddress" 
+										placeholder="پتہ لکھیں">
+								</div>
+								<div class="col col-md-2"></div>
+								<div class="col col-md-5 permaddress">
+									<label>مستقل پتہ</label> <input type="text"
+										class="form-control" id="permaddress" name="permaddress"
+										placeholder="پتہ لکھیں">
+								</div>
+								
+
+							</div>
+
+							<div class="row">
+								<div class="col col-md-5"></div>
+								<div class="col col-md-2"></div>
+
+								<div class="col col-md-5 nic">
+									<label>شناختی کارڈ</label> 
+									<input type="text"
+										class="form-control" id="nic" placeholder="35401-1234567-8"
+										 name="nic">
+								</div>
+
+							</div>
+							<!-- Student form -->
+							<div class="student-form" id="student" style="display: none;">
+								<hr>
+								<div class="row">
+									<div class="col col-md-5">
+										<label>والد کا شناختی کارڈ نمبر</label> <input type="text"
+											class="form-control" id="fathernic" 
+											placeholder="35401-55446677-5">
+									</div>
+									<div class="col col-md-2"></div>
+
+									<div class="col col-md-5">
+										<label>استاد</label> <select class="form-control"
+											id="teacherId" name="teacherId" ></select>
+									</div>
+								
+
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col col-md-5">
+										<label>سرپرست کا قومی شناختی نمبر</label> <input type="text" class="form-control"
+											id="guardiannic" name="guardiannic" >
+									</div>
+									
+									<div class="col col-md-2"></div>
+										<div class="col col-md-5">
+										<label>سرپرست کا نام</label> <input type="text" class="form-control"
+											id="guardianname" name="guardianname" >
+									</div>	
+									
+										
+									<div class="col col-md-5">
+										<label>سرپرست کے ساتھ رشتہ</label> <input type="text"
+											class="form-control" id="guardianrelation" 
+											name="guardianrelation" >
+									</div>	
+									<div class="col col-md-2"></div>
+								    <div class="col col-md-5">
+										<label>سرپرست کا نمبر</label> 
+											<input type="text"
+											class="form-control" 
+											id="gardiannumber" 
+											name="gardiannumber" />
+									</div>				
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col col-md-5">
+										<label>شفٹ</label> <select class="form-control" id="shiftId"
+											name="shiftId">
+											<option value="1">صبح</option>
+											<option value="2">دوپہر</option>
+											<option value="3">شام</option>
+										</select>
+									</div>
+									<div class="col col-md-2"></div>
+
+									<div class="col col-md-5">
+										<label>کلاس</label> 
+										<select class="form-control" id="classId"
+											name="classId">
+											<option value="1">حفظ</option>
+											<option value="2">ناظرہ</option>
+											<option value="3">قائدہ</option>
+										</select>
+									</div>
+
+								</div>
+
+								<!-- <div class="row">
+									<div class="col col-md-5"></div>
+									<div class="col col-md-2"></div>
+
+									<div class="col col-md-5">
+										<label>مستقل پتہ</label> <input type="text"
+											class="form-control" id="permaddress" name="permaddress"
+											placeholder="پتہ لکھیں">
+									</div>
+
+								</div> -->
+							</div>
+
+							<!-- Teacher form -->
+							<div class="student-form" id="teacher" style="display: none;">
+								<hr>
+
+								
+								
+								<div class="row">
+									<div class="col col-md-5">
+										<label>عصری تعلیم</label> 
+										<input type="text" class="form-control" id="modernQualification" name="modernQualification">
+										
+									</div>
+									<div class="col col-md-2"></div>
+
+									<div class="col col-md-5">
+										<label>پچھلے مدارس</label> <input type="text" class="form-control"
+											id="otherMadarsas" name="otherMadarsas" >
+									</div>
+								</div>
+							
+							<hr/>
+
+							</div>
+							
+							<div class="student-form" id="nigran1" style="display:none;">
+							<hr>
+									<div class="row">
+									<div class="col col-md-5">
+									<label>اضافی تعلیمی اہلیت</label> 
+										<input type="text" class="form-control"	id="extraQualification" name="extraQualification" >
+									</div>
+									<div class="col col-md-2"></div>
+
+									<div class="col col-md-5">
+										<label>تعلیمی قابلیت</label>
+										<br>
+										حفظ <input type="checkbox"  name="qualification" value="حفظ" class="qual">
+										قاری <input type="checkbox"  name="qualification" value="قاری"  class="qual">
+										عالم <input type="checkbox"  name="qualification" value="عالم"  class="qual">
+										متحضبص <input type="checkbox" name="qualification" id="qualification"  value="متحضبص"  class="qual">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col col-md-5">
+										<label>فارغل تحصیل کی تاریخ</label> <input type="date"
+											class="form-control" id="lastQualificationDate" name="lastQualificationDate" >
+									</div>
+									<div class="col col-md-2"></div>
+
+									<div class="col col-md-5">
+										<label>فارغل تحصیل</label> <input type="text" class="form-control"
+											id="lastAttendedMadarsa" name="lastAttendedMadarsa">
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col col-md-5">
+										<label>تنخواہ</label> <input type="text" class="form-control"
+											id="salary" name="salary" placeholder="10000">
+									</div>
+									<div class="col col-md-2"></div>
+
+									<div class="col col-md-5">
+										<label>بینیفٹ رقم</label> <input type="text"
+											class="form-control" id="benefitamount" name="benefitamount" 
+											placeholder="5000">
+									</div>
+								</div>
+								<hr />
+							</div>
+							<!-- Teacher form -->
+							<div class="student-form" id="nigran" style="display: none;">
+								
+								<div class="row">
+									<div class="col col-md-5"></div>
+									<div class="col col-md-2"></div>
+
+									<div class="col col-md-5">
+										<label>ایزی اکائونٹ ٹائٹل</label> <input type="text"
+											class="form-control" id="easyaccounttitle"
+											name="easyaccounttitle" placeholder="">
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col col-md-5">
+										<label>ای موبائل نمبر</label> <input type="text"
+											class="form-control" id="emobilenumber" name="emobilenumber"
+											placeholder="0300-56968547">
+									</div>
+									<div class="col col-md-2"></div>
+
+									<div class="col col-md-5">
+										<label>ای قومی شناختی کارڈ نمبر</label> <input type="text"
+											class="form-control" id="enic" name="enic"
+											placeholder="45504-58964587-5">
+									</div>
+								</div>
+								
+								<div class="row">
+								<div class="col col-md-5">
+								</div>
+								<div class="col col-md-2"></div>
+								
+								<div class="col col-md-5">
+								<label> ازدواجی حیثیت </label> 
+								<select class="form-control" id="maritalStatus"
+									name="maritalStatus"  style="width: 100%">
+										<option value="1">شادی شدہ</option>
+										<option value="0">غیرشادی شدہ</option>
+									</select>
+									</div>
+								</div>
+								
+							</div>	
+						
+							
+							<div class="box-footer">
+								<button type="submit" class="btn btn-primary" id="btnSave">محفوظ
+									کریں</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+
+	<script>
+	$(document).ready(function(){
+		usersByCategory("");
+		/* 
+		 $("#profileImage").on("click", function() {
+           //  $("input[name='file']").trigger("click");
+			 var fileSelector = document.createElement('input');
+				fileSelector.setAttribute('type', 'file');
+				fileSelector.click();
+				 return false;
+         }); */
+	})
+	
+	$("form#userForm").submit(function(e) {
+		 e.preventDefault();
+		
+		
+		
+		var usertype = $("#userTypeId").val();
+
+		CustomValidate(usertype);
+		
+		//requiredValidation(usertype);
+		
+		debugger;
+		
+		$( this ).find( ":invalid" ).first().focus();
+   		
+		var isValidUser = $("#erroruserexist").html();
+   		
+		if(requiredValidation(usertype) && isValidUser==""){
+		//if($("#name").val()!="" && isValidUser==""){
+			var apiPath = 	usersApiUrl+"/user/save";
+	
+			if(usertype == 4) {
+				apiPath = 	usersApiUrl+"/student/save";
+			} else {
+				apiPath = 	usersApiUrl+"/user/save";
+			}
+				
+			 var args = buildAjaxArgs(apiPath,'POST',"json","application/json",function(data, status, xhr){
+				console.log(status)
+				$("#modal-close").trigger('click')
+				 window.table.ajax.reload( null, false );
+				//alert('Record have been saved.');
+							swal("Saved", "ریکارڈ کامیابی سے محفوظ کردی گئی ہے", "success");
+			
+			 },function(xhr, status, error) {
+				console.log(status)
+			});
+			
+			 var qual_arr = [];
+			 
+				 $('input[name^="qualification"]').each(function(){
+					 if($(this).is(":checked")){
+						// qualifications += $(this).val() +",";
+						 qual_arr.push($(this).val());
+					 }
+				 });
+			
+			 	
+				 //re-join array properly
+				var qualifications = qual_arr.join(",");
+				 
+				args["data"] = makeFormJSON("userForm");
+				var dataJson = JSON.parse(args["data"]);
+				dataJson.qualification = qualifications;
+				dataJson.username = document.getElementById('username-id').value;
+				args["data"] = JSON.stringify(dataJson);
+				console.log(args["data"]);
+				makeAjaxCall(args);
+		
+		}
+	});
+	
+	
+
+	//populating users type.
+	$(function(){
+		var args = buildAjaxArgs(usersApiUrl+"/type/",'GET',"json","application/json",function(data, status, xhr){
+			console.log(status)
+
+		},function(xhr, status, error){
+			console.log(status)
+		
+		});
+		
+		fillDropDown(args,"userTypeId");
+	});
+	
+
+	//populating orgs.
+	$(function(){
+		
+		var args = buildAjaxArgs(madarsApiUrl+"/org/branch/",'GET',"json","application/json",function(data, status, xhr){
+			console.log(status)
+
+		},function(xhr, status, error){
+			console.log(status)
+		
+		});
+		
+		fillDropDown(args,"madarsaId");
+	});	
+	
+	
+	$(function(){
+		
+		var userTypeId = 2;
+		var args = buildAjaxArgs(usersApiUrl+"/user/byType/"+userTypeId+"/",'GET',"json","application/json",
+		
+		function(data, status, xhr){
+			console.log(status)
+
+		},function(xhr, status, error){
+			console.log(status)
+		
+		});
+		
+		fillDropDown(args,"teacherId");
+		
+		//reseting model	
+		$(".modal").on("hidden.bs.modal", function(){
+			//$(".modal-body input").val("");
+		});
+		
+	});
+	
+	function populateDataInForm(id, actionType) {
+		var args = buildAjaxArgs(usersApiUrl+"/user/list/"+id+"/",'GET',"json","application/json",
+		function(data, status, xhr){
+
+		},function(xhr, status, error){
+			console.log(status)
+		
+		});
+		refillForm(args,actionType);
+	}
+	
+	
+	function refillForm(args,actionType) {
+
+		args["url"] = args.url, args["type"] = "GET"
+		args["success"] = function(data, status, xhr) {
+			
+			repopulateData(data);
+		}
+
+		args["error"] = function(xhr, status, error) {
+			console.log("Error while getting list of user types : " + error)
+		}
+		
+	
+		if (actionType=="edit") {
+			$('#username-id').attr('disabled', true);
+			
+			$('#btnSave').attr('disabled', false);
+		} else if (actionType=="view") {
+			$('#username-id').attr('disabled', true);
+			$('#btnSave').attr('disabled', true);
+		}
+		else{
+			$('#username-id').attr('disabled', false);
+		}
+		
+		makeAjaxCall(args)
+
+		
+	}
+
+	function repopulateData(oData) {
+		debugger;
+		var initValues ='';
+		
+		try {
+			$.each(oData.data, function(name, val) {
+		        var $el = $('#' + name );
+		       
+		        try {
+		        	  if(name == "qualification")
+			        	{
+				        	initValues = val.split(',');
+			        	}
+				} catch (e) {
+					// TODO: handle exception
+				}
+		      
+		        
+		        if(name == "image" && val!=null) {
+		        	document.getElementById('profileImage').src= val.substring(1, val.length);
+		        } else {
+			        $el.val(val);
+		        }
+		        
+		        if(name=="username" && val!=null ){
+		          $('#username-id').val(val);
+		        }
+		        
+		    });	
+		} catch (e) {
+			// TODO: handle exception
+		}
+	    
+	    
+	    $('#locationdata').val($('#location').val());
+	    
+	    convertTobase64Img(document.getElementById('profileImage').src);
+	    
+	    //qualification assignment
+	    try {
+	    	$('input[name^="qualification"]').each(function(){
+		    	 $(this).prop("checked", ($.inArray($(this).val(), initValues) != -1));
+			 });
+		} catch (e) {
+			// TODO: handle exception
+		}
+	     
+	    resetFormType();
+	}
+
+	//clear all when hidden
+	$('#modal-default').on('hidden.bs.modal', function (e) {
+		debugger;
+		  $(this)
+		    .find("input,textarea")
+		       .val('')
+		       .end()
+		    .find("input[type=checkbox], input[type=radio]")
+		       .prop("checked", "")
+		       .end();
+
+		  $('#userTypeId').attr('disabled', false);
+			$('#username-id').attr('disabled', false);
+			$('#profileImage').attr('src', "images/profileIcon.jpg");
+			
+	})
+	
+		//populating nigrans.
+	$(function(){
+				
+		var args = buildAjaxArgs(locationsApiUrl+"/locations/listLocations/",'GET',"json","application/json",function(data, status, xhr){
+			console.log(status)
+
+		},function(xhr, status, error){
+			console.log(status)
+		
+		});
+		
+		fillDropDown(args,"locationdata");
+		
+		//$(".chosen-select").chosen({rtl: true, width: "100%"});
+
+	});
+	function resetFormType(){
+		debugger;
+		try {
+			$('#teacher').find('*').attr('disabled', true);
+			$('#teacher').hide();
+			
+			$('.madarsa').find('*').attr('disabled', true);
+			$('.madarsa').css("visibility", "hidden");
+			
+			$('#nigran').show();
+			$('#nigran').find('*').attr('disabled', false);
+			
+			$('#nigran1').hide();
+			$('#nigran1').find('*').attr('disabled', false);
+
+			var usertype = $( "#userTypeId" ).val();
+
+			CustomValidate(usertype);
+			
+			if(usertype == "2") {
+				
+				$('#teacher').show();
+				$('#teacher').find('*').attr('disabled', false);
+				
+				$('#student').hide();
+				$('#student').find('*').attr('disabled', true);
+				
+				$('.madarsa').find('*').attr('disabled', false);
+				$('.madarsa').css("visibility", "visible");
+				
+				$('.userId-password').show();
+				$('.userId-password').find('*').attr('disabled', false);
+
+				$('#nigran1').show();
+				$('#nigran1').find('*').attr('disabled', false);
+				
+			} else if(usertype == "4") {
+				
+				$('#teacher').hide();
+				$('#teacher').find('*').attr('disabled', true);
+				
+				$('#student').show();
+				$('#student').find('*').attr('disabled', false);
+				
+				$('.userId-password').hide();
+				$('.userId-password').find('*').attr('disabled', true);
+				
+				$('.nic').hide();
+				$('.nic').find('*').attr('disabled', true);
+				
+				$('.madarsa').find('*').attr('disabled', false);
+				$('.madarsa').css("visibility", "visible");
+				
+				$('.tempaddress').find('*').attr('disabled', true);
+				//$('.tempaddress').hide();
+				$('.tempaddress').css("visibility", "hidden");
+				$('.permaddress').find('*').attr('disabled', false);
+				$('.permaddress').show();
+				
+				$('#nigran').hide();
+				$('#nigran').find('*').attr('disabled', true);
+				
+				$('#nigran1').hide();
+				$('#nigran1').find('*').attr('disabled', false);
+				
+				
+			} else if(usertype == "1") {
+				
+				$('#nigran').show();
+				$('#nigran').find('*').attr('disabled', false);
+				
+				$('#nigran1').show();
+				$('#nigran1').find('*').attr('disabled', false);
+			
+			}  if(usertype == "1" || usertype == "3") {
+				
+				$('.madarsa').find('*').attr('disabled', true);
+				$('.madarsa').css("visibility", "hidden");
+				
+				$('#student').hide();
+				$('#student').find('*').attr('disabled', true);
+				
+				$('#teacher').hide();
+				$('#teacher').find('*').attr('disabled', true);
+				
+				$('.userId-password').show();
+				$('.userId-password').find('*').attr('disabled', false);
+				
+				$('.nic').show();
+				$('.nic').find('*').attr('disabled', false);
+				
+				
+				
+			}   else if(usertype == "3") {
+
+				$('#nigran').hide();
+				$('#nigran').find('*').attr('disabled', true);
+				
+				/* $('#teacher').find('*').attr('disabled', true);
+				$('#teacher').hide(); */
+				
+				$('#student').find('*').attr('disabled', true);
+				$('#student').hide();
+				
+				$('.madarsa').find('*').attr('disabled', false);
+				$('.madarsa').css("visibility", "visible");
+				
+				$('.tempaddress').find('*').attr('disabled', false);
+				$('.tempaddress').show();
+				
+				$('.permaddress').find('*').attr('disabled', false);
+				$('.permaddress').show();
+				
+			/* 	$('.userId-password').show();
+				$('.userId-password').find('*').attr('disabled', false); */
+				
+				$('.nic').show();
+				$('.nic').find('*').attr('disabled', false);
+				
+				$('#nigran').hide();
+				$('#nigran').find('*').attr('disabled', true);
+				
+				$('#nigran1').hide();
+				$('#nigran1').find('*').attr('disabled', false);
+			}
+			
+		} catch (e) {
+			// TODO: handle exception
+		}
+		
+	}
+	
+	///Hiding fields as per user type selection
+	
+
+	
+	$(function(){
+
+
+		//1  = nigran
+		//2 = ustad
+		//3 = markaz member
+		//4 = stud
+		
+		$('#username-id').val("");
+		$('#passwordSalt').val("");
+		
+		$('#teacher').find('*').attr('disabled', true);
+		$('#teacher').hide();
+		
+		$('.madarsa').find('*').attr('disabled', true);
+		$('.madarsa').css("visibility", "hidden");
+		
+		$('#nigran').show();
+		$('#nigran').find('*').attr('disabled', false);
+		
+		$('.nic').show();
+		$('.nic').find('*').attr('disabled', false);
+		
+		$('.userId-password').show();
+		$('.userId-password').find('*').attr('disabled', false);
+		
+		$('#nigran1').show();
+		$('#nigran1').find('*').attr('disabled', false);
+		
+		$( "#userTypeId" ).change(function() {
+			debugger;
+			var usertype = $(this).val();
+
+			CustomValidate(usertype);
+			
+			if(usertype == "2") {
+				
+				$('#teacher').show();
+				$('#teacher').find('*').attr('disabled', false);
+				
+				$('#student').hide();
+				$('#student').find('*').attr('disabled', true);
+				
+				$('.madarsa').find('*').attr('disabled', false);
+				$('.madarsa').css("visibility", "visible");
+				
+				$('.userId-password').show();
+				$('.userId-password').find('*').attr('disabled', false);
+
+				$('#nigran1').hide();
+				$('#nigran1').find('*').attr('disabled', false);
+				
+			} else if(usertype == "4") {
+				
+				$('#teacher').hide();
+				$('#teacher').find('*').attr('disabled', true);
+				
+				$('#student').show();
+				$('#student').find('*').attr('disabled', false);
+				
+				$('.userId-password').hide();
+				$('.userId-password').find('*').attr('disabled', true);
+				
+				$('.nic').hide();
+				$('.nic').find('*').attr('disabled', true);
+				
+				$('.madarsa').find('*').attr('disabled', false);
+				$('.madarsa').css("visibility", "visible");
+				
+				$('.tempaddress').find('*').attr('disabled', true);
+				//$('.tempaddress').hide();
+				$('.tempaddress').css("visibility", "hidden");
+				$('.permaddress').find('*').attr('disabled', false);
+				$('.permaddress').show();
+				
+				$('#nigran').hide();
+				$('#nigran').find('*').attr('disabled', true);
+				
+				$('#nigran1').hide();
+				$('#nigran1').find('*').attr('disabled', false);
+				
+			} else if(usertype == "1") {
+				
+				$('#nigran').show();
+				$('#nigran').find('*').attr('disabled', false);
+				
+				$('#nigran1').show();
+				$('#nigran1').find('*').attr('disabled', false);
+			
+			}  if(usertype == "1" || usertype == "3") {
+				
+				$('.madarsa').find('*').attr('disabled', true);
+				$('.madarsa').css("visibility", "hidden");
+				
+				$('#student').hide();
+				$('#student').find('*').attr('disabled', true);
+				
+				$('#teacher').hide();
+				$('#teacher').find('*').attr('disabled', true);
+				
+				$('.userId-password').show();
+				$('.userId-password').find('*').attr('disabled', false);
+				
+				$('.nic').show();
+				$('.nic').find('*').attr('disabled', false);
+				
+				
+			}   else if(usertype == "3") {
+
+				$('#nigran').hide();
+				$('#nigran').find('*').attr('disabled', true);
+				
+				$('#nigran1').hide();
+				$('#nigran1').find('*').attr('disabled', true);
+				
+				/* $('#teacher').find('*').attr('disabled', true);
+				$('#teacher').hide(); */
+				
+				$('#student').find('*').attr('disabled', true);
+				$('#student').hide();
+				
+				$('.madarsa').find('*').attr('disabled', false);
+				$('.madarsa').css("visibility", "visible");
+				
+				$('.tempaddress').find('*').attr('disabled', false);
+				$('.tempaddress').show();
+				
+				$('.permaddress').find('*').attr('disabled', false);
+				$('.permaddress').show();
+				
+			/* 	$('.userId-password').show();
+				$('.userId-password').find('*').attr('disabled', false); */
+				
+				$('.nic').show();
+				$('.nic').find('*').attr('disabled', false);
+				
+				$('#nigran').hide();
+				$('#nigran').find('*').attr('disabled', true);
+			}
+			
+			});
+		
+		});
+	
+	function requiredValidation(usertype)
+	{
+		
+		$('input:required').each(function() {
+	        if($(this).val() == '') {
+	           $(this).css('border-color' , 'red');
+	        }
+	 	});
+		
+		debugger;
+		
+		var returnVal = false;
+		
+		if(usertype == "1") {
+			
+		
+			
+			if(
+					$('#name').val()!=""
+					&& $('#nic').val()!=""
+						&& $('#username-id').val()!=""
+							&& $('#passwordSalt').val()!=""
+								&&	$('#locationdata option:selected').val()!="0"
+							
+												
+					
+			)
+			{
+				returnVal = true;
+			}		
+			
+		}
+		else if(usertype == "2") {
+			
+			if(
+					$('#name').val()!=""
+					&& $('#nic').val()!=""
+						&& $('#username-id').val()!=""
+							&& $('#passwordSalt').val()!=""
+							&&	$('#locationdata option:selected').val()!="0"
+					
+			)
+			{
+				returnVal = true;
+			}	
+		
+			
+		}
+		else if(usertype == "3") {
+			
+			if(
+					$('#name').val()!=""
+					&& $('#nic').val()!=""
+						&& $('#username-id').val()!=""
+							&& $('#passwordSalt').val()!=""
+								&&	$('#locationdata option:selected').val()!="0"
+					
+			)
+			{
+				returnVal = true;
+			}	
+		
+		}
+		else if(usertype == "4") {
+			if(
+					$('#name').val()!=""
+						&&	$('#locationdata option:selected').val()!="0"
+					
+			)
+			{
+				returnVal = true;
+			}	
+		}
+		
+		return returnVal;
+	}
+
+	function CustomValidate(usertype){	
+		
+			try {
+				$('#username-id').removeAttr('required');
+				$('#passwordSalt').removeAttr('required');
+				$('#name').removeAttr('required');
+				$('#nic').removeAttr('required');
+				$('#locationdata').removeAttr('required');
+		
+				if(usertype == "1") {
+					$('#name').attr('required',"required");
+					$('#nic').attr('required',"required");
+					$('#username-id').attr('required',"required");
+					$('#passwordSalt').attr('required',"required");
+					$('#locationdata').attr('required',"required");
+				
+				
+					
+				}
+				else if(usertype == "2") {
+					$('#name').attr('required',"required");
+					$('#nic').attr('required',"required");
+					
+					$('#username-id').attr('required',"required");
+					$('#passwordSalt').attr('required',"required");
+					$('#locationdata').attr('required',"required");
+					
+				}
+				else if(usertype == "3") {
+					$('#name').attr('required',"required");
+					$('#nic').attr('required',"required");
+					
+					$('#username-id').attr('required',"required");
+					$('#passwordSalt').attr('required',"required");
+					$('#locationdata').attr('required',"required");
+				
+				}
+				else if(usertype == "4") {
+					$('#name').attr('required',"required");
+					$('#nic').attr('required',"required");
+					$('#locationdata').attr('required',"required");
+					
+				
+				}
+			} catch (e) {
+				// TODO: handle exception
+			}
+	}
+	
+	
+	
+	/** Showing users by categorry */
+	function usersByCategory(userTypeId) {
+		var url="";
+		if(userTypeId=="")
+			url = usersApiUrl+"/user/customizedList/";
+		else
+			url = usersApiUrl+"/user/byType/"+userTypeId;
+		
+		var table ;
+		window.table = renderDataTable({
+			dataUrl:url,
+			tableId:"example",
+			type:"GET",
+			convertToArray : function (data){
+				console.log(data)
+				return data.data;
+			},
+			cols:[
+				{"title":"نمبر", "data":"id"},
+				{"title":"نام", "data":"name"},
+				{"title":"یوزر آیڈی", "data":"username"},
+				{"title":"داخلے کی تاریخ", "data":"doj"},
+				{"title":"شناختی کارڈ", "data":"nic"},
+				{"title":"قسم", "data":"userTypeId"},
+				{"title":"حالت", "data":"status"},
+				{"title":"ایکشن", "data":"", "render":function( data, type, row, meta ){
+					//return meta.row + meta.settings._iDisplayStart + 1;
+						 return "<button type='button' class='btn btn-default'  onclick='populateDataInForm("+row.id+",\"edit\")' data-toggle='modal' data-target='#modal-default'>	<i class='fa fa-edit'></i></button>"+
+						 "<button type='button' class='btn btn-default' onclick='populateDataInForm("+row.id+",\"view\")' data-toggle='modal' data-target='#modal-default'>View</button>" 
+					}
+				}
+			]
+		
+		})
+			
+		setTimeout(() => {
+			$("#status").select2();	
+		}, 500);
+			
+			//calling user type
+		
+	}
+
+	$( "#locationdata" ).change(function() {
+		changelocation();
+	});
+	
+	function changelocation(){
+		debugger;
+		var location = $('#locationdata').val();
+		$('#location').val(location);
+		$("#locationId").val(location);
+		$("#locationLabel").val($('#locationdata option:selected').text());
+	}
+	
+
+
+$('#passwordSalt').focus(function() {
+	$('#passwordSalt').attr('type','text');
+});
+	
+$('#passwordSalt').focusout(function() {
+	$('#passwordSalt').attr('type','password');
+});
+
+
+$(function(){
+	debugger;
+    var usertype = $("#userTypeId").val();
+    CustomValidate(usertype);
+});
+</script>

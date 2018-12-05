@@ -1,0 +1,336 @@
+<center><h1>مدارس</h1></center>
+<hr>
+<div class="container-fluid">
+<div id ="loader" style="z-index:10000; position: absolute; top: 274px; left: 613px;"> <img src="images/image_1184094.gif"></div>
+
+<div class="provinces">
+	<div class="row " >
+		 <div class="col-md-3 col-sm-4">
+	              <div class="wrimagecard wrimagecard-topimage">
+	                  <a href="javascript:(void)" onclick="render('pages/manage-madarsa.html')">
+	                  <div class="wrimagecard-topimage_header" style="background-color: rgb(60, 141, 104);color:#fff;">
+	                     <center><h2>پاکستان</h2></center>
+	                  </div>
+	                  <div class="wrimagecard-topimage_title">
+	                    <h4>کل تعداد
+	                    <div class="pull-right badge" id="WrControls"></div></h4>
+		                <p>مدارس <span id="countmadaris"><strong>نتائج دکھا رہا ہے ...</strong></span></p>
+		                <p>طلباء <span id="countstudent"><strong>نتائج دکھا رہا ہے ...</strong></span></p>
+		                <p>اساتذہ <span id="countteacher"><strong>نتائج دکھا رہا ہے ...</strong></span></p>
+		                
+		                <input type="hidden" id="hidcountmadaris" value="0" />
+		                <input type="hidden" id="hidcountstudents" value="0" />
+		                <input type="hidden" id="hidcountteachers" value="0" />
+	                  </div>
+	                </a>
+	              </div>
+	        </div>
+      
+       <!--  <div class="col-md-3 col-sm-3 ">
+          <div class="wrimagecard wrimagecard-topimage">
+              <a href="#">
+              <div class="wrimagecard-topimage_header" style="background-color: rgb(60, 141, 104);color:#fff;">
+                <center><h3>سندھ</h3></center>
+              </div>
+              <div class="wrimagecard-topimage_title">
+                    <h4>کل تعداد
+                    <div class="pull-right badge" id="WrControls"></div></h4>
+	                <p>مدارس <span><strong>٥٠</strong></span></p>
+	                <p>طلباء <span><strong>٥٠٠</strong></span></p>
+	                <p>اساتذہ <span><strong>٥٠</strong></span></p>
+                 </div>
+            </a>
+          </div>
+    </div>
+        <div class="col-md-3 col-sm-3 ">
+          <div class="wrimagecard wrimagecard-topimage">
+              <a href="#">
+              <div class="wrimagecard-topimage_header" style="background-color: rgba(119, 178, 88, 0.1)">
+                <center><h3>پنجاب</h3></center>
+              </div>
+              <div class="wrimagecard-topimage_title">
+                    <h4>کل تعداد
+                    <div class="pull-right badge" id="WrControls"></div></h4>
+	                <p>مدارس <span><strong>٥٠</strong></span></p>
+	                <p>طلباء <span><strong>٥٠٠</strong></span></p>
+	                <p>اساتذہ <span><strong>٥٠</strong></span></p>
+                  </div>
+            </a>
+          </div>
+    </div>
+        <div class="col-md-3 col-sm-3">
+          <div class="wrimagecard wrimagecard-topimage">
+              <a href="#">
+              <div class="wrimagecard-topimage_header" style="background-color: rgba(119, 178, 88, 0.1)">
+                 <center><h3>خیبر پختونخواہ</h3></center>
+              </div>
+              <div class="wrimagecard-topimage_title">
+                    <h4>کل تعداد
+                    <div class="pull-right badge" id="WrControls"></div></h4>
+	                <p>مدارس <span><strong>٥٠</strong></span></p>
+	                <p>طلباء <span><strong>٥٠٠</strong></span></p>
+	                <p>اساتذہ <span><strong>٥٠</strong></span></p>
+               </div>
+            </a>
+          </div>
+    </div>
+        <div class="col-md-3 col-sm-3">
+              <div class="wrimagecard wrimagecard-topimage">
+                  <a href="#">
+                  <div class="wrimagecard-topimage_header" style="background-color: rgba(119, 178, 88, 0.1)">
+                     <center><h3>بلوچستان</h3></center>
+                  </div>
+                  <div class="wrimagecard-topimage_title">
+                    <h4>کل تعداد
+                    <div class="pull-right badge" id="WrControls"></div></h4>
+	                <p>مدارس <span><strong>٥٠</strong></span></p>
+	                <p>طلباء <span><strong>٥٠٠</strong></span></p>
+	                <p>اساتذہ <span><strong>٥٠</strong></span></p>
+                  </div>
+                </a>
+              </div>
+        </div> -->
+    </div>
+  </div>
+</div>
+
+<script>
+	var countmadaris = 0;
+	
+	 function createBoxesIn(data, parentDivClass) {
+		var mainDiv = "";
+		var index = 0;
+		displayLoader(true);
+		 $.each( data.data, function( counter, data ) {
+			var madarsaCounts="0";
+			var teachers = "0";
+			var students = "0";
+			var locationIds = getIds(data.id);
+			/* if(locationIds!="") {
+				var madaris = getMadaris(locationIds);
+				madarsaCounts =  madaris.data.length;
+				countmadaris =countmadaris+madarsaCounts;
+				console.log(madarsaCounts);
+				var madarsaIds = getmadarsaIds(madaris);
+				madarsaIds = madarsaIds!="" && madarsaIds!=null? madarsaIds.substring(0,(madarsaIds.length-1)) : madarsaIds;
+				
+				teachers = functionAjaxCall(madarsaIds,'teacher');
+				
+			
+				
+				students = functionAjaxCall(madarsaIds,'student');
+				
+				
+				console.log("madarsaIds>>>"+madarsaIds);
+				
+			} */
+			
+			if ((index % 5) == 0) mainDiv += "<div class='row'>";
+			
+			mainDiv += "<div class='col-md-3 col-sm-3'>"+
+							 "<div class='wrimagecard wrimagecard-topimage'>"+
+								"<a href='javascript:(0)' onclick='javascript:render(\"pages/madarsa-location-wise.html?id="+data.id+"\")'>"+
+					            "<div class='wrimagecard-topimage_header' style='background-color: rgb(60, 141, 104);color:#fff;'>"+
+					               "<center><h3>"+data.value+" </h3></center>"+
+					            "</div>"+					          
+					          	"</a>"+
+					          	"</div>"+
+					          "</div>";					          
+					       
+			  if ((index % 5) == 4) mainDiv += "</div>";
+				index++;	  
+				
+			});
+		
+		$('.'+parentDivClass).append(mainDiv);
+		displayLoader(false);
+		
+	}
+	 
+	
+	 async function loadmadaris(){
+		 
+		 await loadtehsil();
+	 }
+	 
+	 function loadtehsil(){
+		 
+		 var apiPath = "/locations/locationData/mappingData/4/";
+		 var args = buildAjaxArgs(apiPath,'GET',"json","application/json",function(data, status, xhr){
+			 createBoxesIn(data, 'container-fluid');
+		 },function(xhr, status, error) {
+			console.log(status)
+		});
+		makeAjaxCall(args) 
+		
+	 }
+	 
+	$(document).ready(function(){
+		
+		
+		
+		
+		displayLoader(true);
+		
+	
+		/************************************************************
+		 ****************List of Provinces***************************
+		************************************************************/
+		var apiPath = "/locations/locationData/mappingData/2/";
+		 var args = buildAjaxArgs(apiPath,'GET',"json","application/json",function(data, status, xhr){
+			 createBoxesIn(data, 'provinces');
+		 },function(xhr, status, error) {
+			console.log(status);
+		});
+		 
+		makeAjaxCall(args) ;
+		
+		/************************************************************
+		****************List of Tehsils *****************************
+		************************************************************/
+		loadmadaris();
+		//***End of tehsil loading****//
+	
+
+	})
+
+	
+
+		function getIds(id){
+		    var result = "";
+		     jQuery.ajax({
+		        url: locationsApiUrl+"/locations/chiledLocationIds/"+id+"/",
+		        type: 'GET',
+		        dataType : 'json',
+				contentType : 'application/json',
+				 async: false, 
+		        success: function(data) {
+		        	result = data.data;
+		        }, 
+		        error: function() {
+		           return "Hello";
+		        }
+		    });
+		    return result;
+		}
+		
+		function getMadaris(ids){
+			ids = ids.join();
+		    var result;
+		     jQuery.ajax({
+		        url: madarsApiUrl+"/org/branch/list-branches-by-location/"+ids+"/",
+		        type: 'GET',
+		        dataType : 'json',
+				contentType : 'application/json',
+				 async: false, 
+		        success: function(data) {
+		        	
+		        	result = data;
+		        	
+		        }, 
+		        error: function() {
+		           return "Hello";
+		        }
+		    });
+		    return result;
+		}
+		
+		function getmadarsaIds(madaris) {
+			var madarsaIds;
+			window.madarsaIds = 0;
+			$.each(madaris.data,function(index, madarsa){
+				window.madarsaIds = window.madarsaIds + madarsa.id + ',';
+			});
+			
+			return window.madarsaIds;
+		}
+	
+	
+	function functionAjaxCall(madarsaId,userType) {
+		var userTypeId = userType=="teacher" ? 2 : 4;
+	   	var countUsers = 0;
+	   	var length = 0;
+	   try {	
+		   	if (madarsaId.indexOf(",") > -1) 
+		   	{
+		   		var ids = madarsaId.split(',');
+		   		length = ids.length;
+		   	}
+		  
+		   	for(i = 0; i<length; i++) {
+			
+			   jQuery.ajax({
+			        url: usersApiUrl+"/user/by-type-and-madarsa/"+ids[i]+"/"+userTypeId+"/",
+			        type: 'GET',
+			        dataType : 'json',
+					contentType : 'application/json',
+					 async: false, 
+			        success: function(data) {
+			        	countUsers = countUsers + data.data.length;
+			        }, 
+			        error: function() {
+			           return "Hello";
+			        }
+			    });
+		  
+		   }
+	   } catch(err) {
+		   console.log(err);
+	   }
+	   
+	    return countUsers;
+	} 
+	
+	$(function(){
+		 jQuery.ajax({
+		        url: orgApiUrl+"/org/getcounts/",
+		        type: 'GET',
+		        dataType : 'json',
+				contentType : 'application/json',
+				 async: true, 
+		        success: function(data) {
+		        	
+		        	$('#countmadaris').html(data.data);
+		        }, 
+		        error: function() {
+		           return "Hello";
+		        }
+		    });
+		 
+	})
+	
+		$(function(){
+		 jQuery.ajax({
+		        url: usersApiUrl+"/user/getstudentcount/",
+		        type: 'GET',
+		        dataType : 'json',
+				contentType : 'application/json',
+				 async: true, 
+		        success: function(data) {
+		        	$('#countstudent').html(data.data);
+		        }, 
+		        error: function() {
+		           return "Hello";
+		        }
+		    });
+		 
+	})
+	
+		$(function(){
+		 jQuery.ajax({
+		        url: usersApiUrl+"/user/getteachercount/",
+		        type: 'GET',
+		        dataType : 'json',
+				contentType : 'application/json',
+				 async: true, 
+		        success: function(data) {
+		        	$('#countteacher').html(data.data);
+		        }, 
+		        error: function() {
+		           return "Hello";
+		        }
+		    });
+		 
+		})
+	
+</script>

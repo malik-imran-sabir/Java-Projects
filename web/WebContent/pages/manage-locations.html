@@ -1,0 +1,109 @@
+<button type="button" class="btn btn-default" data-toggle="modal"
+	data-target="#modal-default"">
+	<i class="fa fa-plus-square"></i>
+</button>
+<table id="example" class="table table-bordered table-striped">
+</table>
+
+
+
+
+<div class="modal fade" id="modal-default">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button id="modal-close" type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">Manage Locations</h4>
+			</div>
+			<div class="modal-body">
+				<div class="box box-primary">
+
+					<!-- /.box-header -->
+					<!-- form start -->
+					<form role="form" id="madarsaForm" accept-charset="UTF-8">
+						<div class="box-body">
+							<div class="form-group">
+								<label for="name">Name</label> <input
+									type="text" class="form-control" id="name"
+									placeholder="Name">
+							</div>
+							<div class="form-group">
+								<label for="location">CNIC</label> 
+								<input
+									type="text" class="form-control" id="nic"
+									placeholder="CNIC">
+							</div>
+							<div class="form-group">
+								<label for="status">Status</label> 
+									<select	class="form-control" id="status">
+									<option value="A">Active</option>
+									<option value="I">In-Active</option>
+								</select>
+							</div>
+						</div>
+						<!-- /.box-body -->
+
+						<div class="box-footer">
+							<button type="button" class="btn btn-primary" onclick="save()">Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+
+<script>
+	$(document).ready(function(){
+		var table = renderDataTable({
+			dataUrl:usersApiUrl+"/user/",
+			tableId:"example",
+			type:"GET",
+			convertToArray : function (data){
+				console.log(data)
+				return data.data;
+			},
+			cols:[
+				{"title":"Name", "data":"name"},
+				{"title":"CNIC", "data":"nic"},
+				{"title":"User Type", "data":"userTypeId"},
+				{"title":"Created By", "data":"createdBy"},
+				{"title":"Created On", "data":"createdOn"},
+				{"title":"Status", "data":"status"},
+				{"title":"Actions", "data":"", "render":function( data, type, row, meta ){
+						 return "<button type='button' class='btn btn-default'>	<i class='fa fa-edit'></i></button>"+
+						"<button type='button' class='btn btn-default'><i class='fa fa-remove'></i></button>" 
+					}
+				}
+			]
+		})
+		
+		setTimeout(() => {
+			$("#status").select2();	
+		}, 500);
+		
+		
+	})
+
+	
+	function save(){
+		var args = buildAjaxArgs(usersApiUrl+"/user/",'POST',"json","application/json",function(data, status, xhr){
+			console.log(status)
+			$("#modal-close").trigger('click')
+			table.ajax.reload( null, false );
+			
+		},function(xhr, status, error){
+			console.log(status)
+		});
+		args["data"] = makeFormJSON("madarsaForm")
+		console.log(args)
+		makeAjaxCall(args)
+	}
+	
+	
+</script>

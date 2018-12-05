@@ -1,0 +1,113 @@
+<style>
+thead, th {
+	text-align: center;
+}
+</style>
+
+<center><h1>حاضری رجسٹربابت ماہ‎</h1></center>
+	
+	<script>
+	
+	$(document).ready(function() {
+		$.ajax({	url: '/users/user/attendanceRegisterReport/',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data, textStatus, xhr) {
+							var data=data['data'];
+							var headers=[];
+							var dataset=[];
+							
+							headers.push({title:"#"});
+							headers.push({title:"نام"});
+							headers.push({title:"والد کا نام"});
+							headers.push({title:"داخلے کی تاریخ"});
+							for(var i=1;i<=31;i++){
+								headers.push({title:""+i});
+							
+							}
+							headers.push({title:"کل حاضری"});
+							headers.push({title:"غیرحاضری"});
+							headers.push({title:"رخصت بیماری"});
+							headers.push({title:"از"});
+							headers.push({title:"تا"});
+							
+					
+							if(data.length>0){
+								for(var i=0;i<data.length;i++){
+									var singleDataObject=data[i];
+									var object=[];
+									
+									var num=i+1;
+									object.push(num);
+									object.push(singleDataObject.name);
+									object.push(singleDataObject.fathername);
+									object.push(singleDataObject.doj);
+									
+									var totalPresent=0;
+									var totalAbsent=0;
+									var totalLeaves=0;
+									
+									for(var j=1;j<=31;j++){
+										var d='day'+j;
+										var singleOB=""+singleDataObject[d];
+										if(singleOB=="p" || singleOB=="P")	{
+											totalPresent++;
+										}
+										else if(singleOB=="a" || singleOB=="A"){
+											totalAbsent++;
+										}
+										else if(singleOB=="l" || singleOB=="L"){
+											totalLeaves++;
+										}
+										if(singleOB=="null"){
+											singleOB="-";
+										}
+										object.push(singleOB);
+										
+									}
+									
+									object.push(totalPresent);
+									object.push(totalAbsent);
+									object.push(totalLeaves);
+									object.push(singleDataObject.lessonStart);
+									
+									object.push(singleDataObject.lessonEnd);
+									
+									
+									
+									
+									dataset.push(object);
+								
+								}
+							}
+						
+					updateDataTable(headers,dataset);
+					
+					},
+                    error: function (xhr, textStatus, errorThrown) {
+                    	//alert("ERROR");
+					}
+                 });	
+	});
+	
+	function updateDataTable(headers,dataset){
+		$('#example').DataTable( {
+			data: dataset,
+			columns: headers,
+			dom: 'Bfrtip',
+			ordering: false,
+			buttons: [
+				//'copyHtml5',
+				'excelHtml5',
+				'print',
+				//'pdfHtml5'
+			]});
+	}
+
+	
+	</script>
+
+		<div class="content" style="overflow: auto;">
+		<table id="example" class="display table cell-border table table-striped table-bordered" >
+				</table>
+		</div>
